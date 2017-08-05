@@ -24,6 +24,7 @@ public class P_HUD : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(swapper.swapKey) && !won) StartCoroutine(FadeText(false));
+        if (Input.GetKeyDown(KeyCode.Escape)) Application.Quit();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -80,7 +81,7 @@ public class P_HUD : MonoBehaviour
     IEnumerator DisplayWinText()
     {
         won = true;
-        hudText.text = "You win! Yaaaay!";
+        hudText.text = "You win! Yaaaay! (Press esc)";
 
         float elapsedTime = 0;
         while (elapsedTime < fadeTimer)
