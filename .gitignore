@@ -1,3 +1,4 @@
 *.csproj
 *.sln
 AI Demo/Library/
+AI Demo/Temp/
