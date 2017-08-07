@@ -10,6 +10,7 @@ public class SwappableMaterial : MonoBehaviour
 
     private void Start()
     {
+        tag = "VectorObject";
         myRenderer = GetComponent<Renderer>();
         myRenderer.material = vectorMaterial;
 
