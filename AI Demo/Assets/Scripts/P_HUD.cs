@@ -17,8 +17,6 @@ public class P_HUD : MonoBehaviour
 
         hudText.text = "Press " + swapper.swapKey + " to fix texture";
         hudText.color = Color.clear;
-
-        P_SwapMaterials.OnWon += CallWinCoroutine;
     }
 
     private void Update()

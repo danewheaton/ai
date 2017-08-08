@@ -2,29 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(MeshCollider))]
+[RequireComponent(typeof(MeshRenderer))]
+
 public class SwappableMaterial : MonoBehaviour
 {
-    [SerializeField] Material geometryMaterial, vectorMaterial, winMaterial;
+    [SerializeField] Material geometryMaterial, vectorMaterial;
 
+    Collider myCollider;
     Renderer myRenderer;
 
     private void Start()
     {
-        tag = "VectorObject";
+        myCollider = GetComponent<Collider>();
         myRenderer = GetComponent<Renderer>();
-        myRenderer.material = vectorMaterial;
 
-        P_SwapMaterials.OnWon += ChangeToWinMaterial;
+        if (tag == "Dummy") ChangeMaterial(false);
     }
 
-    public void FixMaterial()
+    public void ChangeMaterial(bool changeToWireframe)
     {
-        myRenderer.material = geometryMaterial;
-        tag = "Untagged";
-    }
+        myCollider.enabled = changeToWireframe ? false : true;
+        myRenderer.material = changeToWireframe ? vectorMaterial : geometryMaterial;
 
-    void ChangeToWinMaterial()
-    {
-        myRenderer.material = winMaterial;
+        if (GetComponent<BoxCollider>() != null) GetComponent<BoxCollider>().enabled = changeToWireframe ? false : true;
     }
 }

@@ -1,0 +1,9 @@
+newmtl Default_Prototype
+map_Kd GridBox_Default.png
+Kd 1.0 1.0 1.0
+d 1.0
+
+newmtl BluePipe
+Kd 0.03448248 0 1
+d 1
+
