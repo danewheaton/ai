@@ -1,0 +1,139 @@
+fileFormatVersion: 2
+guid: 9201220faacade74aa14a1c62174d70b
+timeCreated: 1502725222
+licenseType: Free
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: ambulance
+    100004: Ambulance_Body
+    100006: Ambulance_Body_inside
+    100008: Ambulance_Cabin
+    100010: Ambulance_Cabin_inside
+    100012: Ambulance_Decals1
+    100014: Ambulance_Glass
+    100016: Armature
+    100018: door_back_left
+    100020: door_back_right
+    100022: door_front_left
+    100024: door_front_right
+    100026: engine_hood
+    100028: ground
+    100030: steering_wheel
+    100032: wheel_front
+    100034: wheel_front_left
+    100036: wheel_front_right
+    100038: wheel_rear
+    100040: wheel_rear_left
+    100042: wheel_rear_right
+    400000: //RootNode
+    400002: ambulance
+    400004: Ambulance_Body
+    400006: Ambulance_Body_inside
+    400008: Ambulance_Cabin
+    400010: Ambulance_Cabin_inside
+    400012: Ambulance_Decals1
+    400014: Ambulance_Glass
+    400016: Armature
+    400018: door_back_left
+    400020: door_back_right
+    400022: door_front_left
+    400024: door_front_right
+    400026: engine_hood
+    400028: ground
+    400030: steering_wheel
+    400032: wheel_front
+    400034: wheel_front_left
+    400036: wheel_front_right
+    400038: wheel_rear
+    400040: wheel_rear_left
+    400042: wheel_rear_right
+    4300000: Ambulance_Cabin
+    4300002: Ambulance_Decals1
+    4300004: Ambulance_Body_inside
+    4300006: Ambulance_Glass
+    4300008: Ambulance_Body
+    4300010: Ambulance_Cabin_inside
+    9500000: //RootNode
+    13700000: Ambulance_Body
+    13700002: Ambulance_Body_inside
+    13700004: Ambulance_Cabin
+    13700006: Ambulance_Cabin_inside
+    13700008: Ambulance_Decals1
+    13700010: Ambulance_Glass
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
