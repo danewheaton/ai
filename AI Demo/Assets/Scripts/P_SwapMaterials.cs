@@ -9,9 +9,10 @@ public class P_SwapMaterials : MonoBehaviour
 
     [SerializeField] BoxCollider bluePump, greenPump, redPump, yellowPump;
     [SerializeField] SwappableMaterial firstBluePipes, blueSystem, greenSystem, redSystem, yellowSystem, levelGeo;
-    [SerializeField] GameObject wall, cube;
+    [SerializeField] GameObject wall, cube, everything;
+    [SerializeField] Material black, sky;
 
-    bool blueIsActivated, redIsActivated, greenIsActivated, puzzleComplete;
+    bool blueIsActivated, redIsActivated, greenIsActivated, puzzleComplete, pumpIsDisassembled;
 
     private void Start()
     {
@@ -83,6 +84,33 @@ public class P_SwapMaterials : MonoBehaviour
             {
                 Application.Quit();
             }
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Animator pumpAnim = other.GetComponentInChildren<Animator>();
+            pumpAnim.SetBool("CanDisassemble", pumpIsDisassembled ? false : true);
+
+            everything.SetActive(pumpIsDisassembled ? true : false);
+            RenderSettings.skybox = pumpIsDisassembled ? sky : black;
+
+            if (other == bluePump)
+            {
+                redPump.gameObject.SetActive(pumpIsDisassembled ? true : false);
+                greenPump.gameObject.SetActive(pumpIsDisassembled ? true : false);
+            }
+            if (other == redPump)
+            {
+                bluePump.gameObject.SetActive(pumpIsDisassembled ? true : false);
+                greenPump.gameObject.SetActive(pumpIsDisassembled ? true : false);
+            }
+            if (other == greenPump)
+            {
+                redPump.gameObject.SetActive(pumpIsDisassembled ? true : false);
+                bluePump.gameObject.SetActive(pumpIsDisassembled ? true : false);
+            }
+
+            pumpIsDisassembled = !pumpIsDisassembled;
         }
     }
 

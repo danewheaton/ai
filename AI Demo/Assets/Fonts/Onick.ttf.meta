@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 837b9382f0241a0479a1a9ca002b0b0f
+timeCreated: 1502384978
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Onick
+  fontNames:
+  - Onick
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
