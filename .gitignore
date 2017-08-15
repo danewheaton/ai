@@ -1,5 +1,6 @@
 *.csproj
 *.sln
+*.suo
 *!.dll
 Faces/Library/
 Faces/Temp/
