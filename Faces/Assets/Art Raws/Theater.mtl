@@ -1,0 +1,17 @@
+newmtl TheaterRed
+Kd 0.4852941 0 0
+d 1
+
+newmtl TheaterBlack
+Kd 0 0 0
+d 1
+
+newmtl Default_Prototype
+map_Kd GridBox_Default.png
+Kd 1.0 1.0 1.0
+d 1.0
+
+newmtl EmissiveScreen
+Kd 0 0 0
+d 1
+
