@@ -46,7 +46,12 @@ public class P_Controller : MonoBehaviour
         // if you press the jump button and you're not already jumping, jump
         //if (Input.GetButtonDown("Jump") && !jumping) Jump();
 
-        if (Input.GetKeyDown(KeyCode.Escape)) Cursor.visible = true;
+        // reveal cursor if in editor, quit if in build
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (Application.isEditor) Cursor.visible = true;
+            else Application.Quit();
+        }
     }
 
     void FixedUpdate()
