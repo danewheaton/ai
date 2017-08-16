@@ -1,5 +1,6 @@
 *.csproj
 *.sln
+*.suo
 AI Demo/Library/
 AI Demo/Temp/
 Faces/Library/
