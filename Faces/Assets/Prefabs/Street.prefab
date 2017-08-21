@@ -140,7 +140,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4040862334408322}
   m_Layer: 0
-  m_Name: facade and alley
+  m_Name: Street
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
