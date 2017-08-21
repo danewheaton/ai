@@ -15,5 +15,6 @@ public class Teleporter : MonoBehaviour
         player.SetParent(destination);
         player.localPosition = playerLocalPosition;
         player.SetParent(null);
+        P_FaceManipulation.inTheater = !P_FaceManipulation.inTheater;
     }
 }

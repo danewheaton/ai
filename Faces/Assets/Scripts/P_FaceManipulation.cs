@@ -2,16 +2,53 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum GameStates { NONE_COMPLETE, NPC1_COMPLETE, NPC2_COMPLETE, BOTH_COMPLETE, WON }
+
 public class P_FaceManipulation : MonoBehaviour
 {
+    public static bool inTheater = true;
+
     [SerializeField] KeyCode smileKey = KeyCode.Alpha1, frownKey = KeyCode.Alpha2, eyesClosedKey = KeyCode.Alpha3, shrinkEarsKey = KeyCode.Alpha4, warpKey = KeyCode.Alpha5;
     [SerializeField] SkinnedMeshRenderer target1, target2, npc1, npc2, npc1Doppelganger, npc2Doppelganger;
-    [SerializeField] GameObject screen, stairs;
+    [SerializeField] GameObject screen, stairs, happy, scared, angry, sad, wall;
 
     SkinnedMeshRenderer face;
+    GameStates currentState = GameStates.NONE_COMPLETE;
     bool inTrigger;
 
     private void Update()
+    {
+        UpdateInput();
+        UpdateGameStates();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Face")
+        {
+            inTrigger = true;
+            face = other.GetComponent<SkinnedMeshRenderer>();
+            //StartCoroutine(FadeText(face.GetComponentInChildren<TextMesh>(), true));
+            
+            if (!inTheater)
+            {
+                npc1.GetComponent<SphereCollider>().enabled = true;
+                npc2.GetComponent<SphereCollider>().enabled = true;
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        inTrigger = false;
+
+        if (other.tag == "Face")
+        {
+            //StartCoroutine(FadeText(face.GetComponentInChildren<TextMesh>(), false));
+        }
+    }
+
+    void UpdateInput()
     {
         if (inTrigger)
         {
@@ -35,45 +72,232 @@ public class P_FaceManipulation : MonoBehaviour
             {
                 face.SetBlendShapeWeight(0, face.GetBlendShapeWeight(0) + 5);
             }
-
-            if (face == target1 && face.GetBlendShapeWeight(4) > 100)
-            {
-                npc1Doppelganger.GetComponent<SphereCollider>().enabled = true;
-                npc1.GetComponent<SphereCollider>().enabled = false;
-            }
-            else if (face == target2 && face.GetBlendShapeWeight(3) > 100)
-            {
-                npc2Doppelganger.GetComponent<SphereCollider>().enabled = true;
-                npc2.GetComponent<SphereCollider>().enabled = false;
-            }
-
-            if (npc1.GetComponent<SphereCollider>().enabled == false &&
-                npc2.GetComponent<SphereCollider>().enabled == false)
-            {
-                stairs.SetActive(true);
-                screen.SetActive(false);
-            }
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    void UpdateGameStates()
     {
-        if (other.tag == "Face")
+        switch (currentState)
         {
-            inTrigger = true;
-            face = other.GetComponent<SkinnedMeshRenderer>();
-            StartCoroutine(FadeText(face.GetComponentInChildren<TextMesh>(), true));
+            case GameStates.NONE_COMPLETE:
+                if (inTrigger)
+                {
+                    if (face == target1)
+                    {
+                        if (face.GetBlendShapeWeight(3) > 100)
+                        {
+                            npc1Doppelganger.GetComponent<SphereCollider>().enabled = true;
+                            npc1.GetComponent<SphereCollider>().enabled = false;
+                            scared.SetActive(true);
+                            happy.SetActive(false);
+                            npc1.SetBlendShapeWeight(3, 100);
+                            npc1Doppelganger.SetBlendShapeWeight(3, 100);
+                            currentState = GameStates.NPC1_COMPLETE;
+                        }
+                        else if (face.GetBlendShapeWeight(4) > 100)
+                        {
+                            npc1Doppelganger.GetComponent<SphereCollider>().enabled = true;
+                            npc1.GetComponent<SphereCollider>().enabled = false;
+                            happy.SetActive(true);
+                            scared.SetActive(false);
+                            npc1.SetBlendShapeWeight(4, 100);
+                            npc1Doppelganger.SetBlendShapeWeight(4, 100);
+                            currentState = GameStates.NPC1_COMPLETE;
+                        }
+                    }
+                    else if (face == target2)
+                    {
+                        if (face.GetBlendShapeWeight(3) > 100)
+                        {
+                            npc2Doppelganger.GetComponent<SphereCollider>().enabled = true;
+                            npc2.GetComponent<SphereCollider>().enabled = false;
+                            sad.SetActive(true);
+                            angry.SetActive(false);
+                            npc2.SetBlendShapeWeight(3, 100);
+                            npc2Doppelganger.SetBlendShapeWeight(3, 100);
+                            currentState = GameStates.NPC2_COMPLETE;
+                        }
+                        else if (face.GetBlendShapeWeight(4) > 100)
+                        {
+                            npc2Doppelganger.GetComponent<SphereCollider>().enabled = true;
+                            npc2.GetComponent<SphereCollider>().enabled = false;
+                            angry.SetActive(true);
+                            sad.SetActive(false);
+                            npc2.SetBlendShapeWeight(4, 100);
+                            npc2Doppelganger.SetBlendShapeWeight(4, 100);
+                            currentState = GameStates.NPC2_COMPLETE;
+                        }
+                    }
+                }
+                break;
+            case GameStates.NPC1_COMPLETE:
+                if (inTrigger)
+                {
+                    if (face == target2)
+                    {
+                        if (face.GetBlendShapeWeight(3) > 100)
+                        {
+                            npc2Doppelganger.GetComponent<SphereCollider>().enabled = true;
+                            npc2.GetComponent<SphereCollider>().enabled = false;
+                            sad.SetActive(true);
+                            angry.SetActive(false);
+                            npc2.SetBlendShapeWeight(3, 100);
+                            npc2Doppelganger.SetBlendShapeWeight(3, 100);
+                            currentState = GameStates.BOTH_COMPLETE;
+                        }
+                        else if (face.GetBlendShapeWeight(4) > 100)
+                        {
+                            npc2Doppelganger.GetComponent<SphereCollider>().enabled = true;
+                            npc2.GetComponent<SphereCollider>().enabled = false;
+                            angry.SetActive(true);
+                            sad.SetActive(false);
+                            npc2.SetBlendShapeWeight(4, 100);
+                            npc2Doppelganger.SetBlendShapeWeight(4, 100);
+                            currentState = GameStates.BOTH_COMPLETE;
+                        }
+                    }
+                }
+                break;
+            case GameStates.NPC2_COMPLETE:
+                if (inTrigger)
+                {
+                    if (face == target1)
+                    {
+                        if (face.GetBlendShapeWeight(3) > 100)
+                        {
+                            npc1Doppelganger.GetComponent<SphereCollider>().enabled = true;
+                            npc1.GetComponent<SphereCollider>().enabled = false;
+                            scared.SetActive(true);
+                            happy.SetActive(false);
+                            npc1.SetBlendShapeWeight(3, 100);
+                            npc1Doppelganger.SetBlendShapeWeight(3, 100);
+                            currentState = GameStates.BOTH_COMPLETE;
+                        }
+                        else if (face.GetBlendShapeWeight(4) > 100)
+                        {
+                            npc1Doppelganger.GetComponent<SphereCollider>().enabled = true;
+                            npc1.GetComponent<SphereCollider>().enabled = false;
+                            happy.SetActive(true);
+                            scared.SetActive(false);
+                            npc1.SetBlendShapeWeight(4, 100);
+                            npc1Doppelganger.SetBlendShapeWeight(4, 100);
+                            currentState = GameStates.BOTH_COMPLETE;
+                        }
+                    }
+                }
+                break;
+            case GameStates.BOTH_COMPLETE:
+                if (happy.activeInHierarchy && sad.activeInHierarchy && inTheater)
+                {
+                    Win(true);
+                }
+                else if (happy.activeInHierarchy && angry.activeInHierarchy)
+                {
+                    if (face == npc1Doppelganger)
+                    {
+                        npc2.GetComponent<SphereCollider>().enabled = true;
+                        Restart();
+                    }
+                    else if (face == npc2Doppelganger)
+                    {
+                        npc1.GetComponent<SphereCollider>().enabled = true;
+                        Restart();
+                    }
+                }
+                else if (scared.activeInHierarchy && angry.activeInHierarchy && inTheater)
+                {
+                    Win(false);
+                }
+                else if (scared.activeInHierarchy && sad.activeInHierarchy)
+                {
+                    if (face == npc1Doppelganger)
+                    {
+                        npc2.GetComponent<SphereCollider>().enabled = true;
+                        Restart();
+                    }
+                    else if (face == npc2Doppelganger)
+                    {
+                        npc1.GetComponent<SphereCollider>().enabled = true;
+                        Restart();
+                    }
+                }
+                break;
+            default:
+                break;
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    void Restart()
     {
-        inTrigger = false;
+        print("restarted");
 
-        if (other.tag == "Face")
+        happy.SetActive(false);
+        scared.SetActive(false);
+        angry.SetActive(false);
+        sad.SetActive(false);
+
+        npc1Doppelganger.GetComponent<SphereCollider>().enabled = false;
+        npc2Doppelganger.GetComponent<SphereCollider>().enabled = false;
+
+        npc1.SetBlendShapeWeight(4, 0);
+        npc1.SetBlendShapeWeight(3, 0);
+        npc1.SetBlendShapeWeight(2, 0);
+        npc1.SetBlendShapeWeight(1, 0);
+        npc1.SetBlendShapeWeight(0, 0);
+        npc2.SetBlendShapeWeight(4, 0);
+        npc2.SetBlendShapeWeight(3, 0);
+        npc2.SetBlendShapeWeight(2, 0);
+        npc2.SetBlendShapeWeight(1, 0);
+        npc2.SetBlendShapeWeight(0, 0);
+        npc1Doppelganger.SetBlendShapeWeight(4, 0);
+        npc1Doppelganger.SetBlendShapeWeight(3, 0);
+        npc1Doppelganger.SetBlendShapeWeight(2, 0);
+        npc1Doppelganger.SetBlendShapeWeight(1, 0);
+        npc1Doppelganger.SetBlendShapeWeight(0, 0);
+        npc2Doppelganger.SetBlendShapeWeight(4, 0);
+        npc2Doppelganger.SetBlendShapeWeight(3, 0);
+        npc2Doppelganger.SetBlendShapeWeight(2, 0);
+        npc2Doppelganger.SetBlendShapeWeight(1, 0);
+        npc2Doppelganger.SetBlendShapeWeight(0, 0);
+        target1.SetBlendShapeWeight(4, 0);
+        target1.SetBlendShapeWeight(3, 0);
+        target1.SetBlendShapeWeight(2, 0);
+        target1.SetBlendShapeWeight(1, 0);
+        target1.SetBlendShapeWeight(0, 0);
+        target2.SetBlendShapeWeight(4, 0);
+        target2.SetBlendShapeWeight(3, 0);
+        target2.SetBlendShapeWeight(2, 0);
+        target2.SetBlendShapeWeight(1, 0);
+        target2.SetBlendShapeWeight(0, 0);
+
+        currentState = GameStates.NONE_COMPLETE;
+    }
+
+    void Win(bool npc1WasTheKiller)
+    {
+        if (npc1WasTheKiller)
         {
-            StartCoroutine(FadeText(face.GetComponentInChildren<TextMesh>(), false));
+            happy.GetComponent<TextMesh>().text = "killer";
+            sad.GetComponent<TextMesh>().text = "victim";
         }
+        else
+        {
+            scared.GetComponent<TextMesh>().text = "witness";
+            angry.GetComponent<TextMesh>().text = "killer";
+        }
+
+        stairs.SetActive(true);
+        screen.SetActive(false);
+        wall.SetActive(false);
+
+        npc1.GetComponent<SphereCollider>().enabled = false;
+        npc2.GetComponent<SphereCollider>().enabled = false;
+        npc1Doppelganger.GetComponent<SphereCollider>().enabled = false;
+        npc2Doppelganger.GetComponent<SphereCollider>().enabled = false;
+        target1.GetComponent<SphereCollider>().enabled = false;
+        target2.GetComponent<SphereCollider>().enabled = false;
+
+        currentState = GameStates.WON;
     }
 
     IEnumerator FadeText(TextMesh textToFade, bool fadeIn)
