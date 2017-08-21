@@ -5,8 +5,8 @@ using UnityEngine;
 public class P_FaceManipulation : MonoBehaviour
 {
     [SerializeField] KeyCode smileKey = KeyCode.Alpha1, frownKey = KeyCode.Alpha2, eyesClosedKey = KeyCode.Alpha3, shrinkEarsKey = KeyCode.Alpha4, warpKey = KeyCode.Alpha5;
-    [SerializeField] Material winMaterial;
-    [SerializeField] SkinnedMeshRenderer happyFace, sadFace, stressedFace;
+    [SerializeField] SkinnedMeshRenderer target1, target2, npc1, npc2, npc1Doppelganger, npc2Doppelganger;
+    [SerializeField] GameObject screen, stairs;
 
     SkinnedMeshRenderer face;
     bool inTrigger;
@@ -36,16 +36,22 @@ public class P_FaceManipulation : MonoBehaviour
                 face.SetBlendShapeWeight(0, face.GetBlendShapeWeight(0) + 5);
             }
 
-            if ((face == happyFace && face.GetBlendShapeWeight(4) > 100) ||
-                (face == sadFace && face.GetBlendShapeWeight(3) > 100) ||
-                (face == stressedFace && face.GetBlendShapeWeight(2) > 100 && face.GetBlendShapeWeight(3) > 100))
+            if (face == target1 && face.GetBlendShapeWeight(4) > 100)
             {
-                inTrigger = false;
-                face.material = winMaterial;
-                foreach (Collider c in face.GetComponents<Collider>()) if (c.isTrigger) c.enabled = false;
-                TextMesh faceMesh = face.GetComponentInChildren<TextMesh>();
-                faceMesh.color = Color.yellow;
-                faceMesh.text = "Correct!";
+                npc1Doppelganger.GetComponent<SphereCollider>().enabled = true;
+                npc1.GetComponent<SphereCollider>().enabled = false;
+            }
+            else if (face == target2 && face.GetBlendShapeWeight(3) > 100)
+            {
+                npc2Doppelganger.GetComponent<SphereCollider>().enabled = true;
+                npc2.GetComponent<SphereCollider>().enabled = false;
+            }
+
+            if (npc1.GetComponent<SphereCollider>().enabled == false &&
+                npc2.GetComponent<SphereCollider>().enabled == false)
+            {
+                stairs.SetActive(true);
+                screen.SetActive(false);
             }
         }
     }
