@@ -5,14 +5,15 @@ using UnityEngine;
 public class Teleporter : MonoBehaviour
 {
     [SerializeField] Transform destination;
-    
-    Vector3 playerLocalPosition;
 
     private void OnTriggerEnter(Collider other)
     {
-        other.transform.SetParent(transform);
-        playerLocalPosition = other.transform.localPosition;
-        other.transform.SetParent(destination);
-        other.transform.localPosition = playerLocalPosition;
+        Transform player = other.transform;
+        player.SetParent(transform);
+        Vector3 playerLocalPosition = player.localPosition;
+
+        player.SetParent(destination);
+        player.localPosition = playerLocalPosition;
+        player.SetParent(null);
     }
 }
