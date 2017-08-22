@@ -1,17 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum GameStates { NO_FACES_COMPLETE, NPC1_COMPLETE, NPC2_COMPLETE, BOTH_FACES_COMPLETE, WON }
 
 public class P_FaceManipulation : MonoBehaviour
 {
     public static bool inTheater = true;
-
-    [SerializeField] KeyCode smileKey = KeyCode.Alpha1, frownKey = KeyCode.Alpha2, eyesClosedKey = KeyCode.Alpha3, shrinkEarsKey = KeyCode.Alpha4, warpKey = KeyCode.Alpha5;
     [SerializeField] SkinnedMeshRenderer target1, target2, npc1, npc2, npc1Doppelganger, npc2Doppelganger;
     [SerializeField] GameObject screen, stairs, happy, scared, angry, sad, wall;
 
+    Slider[] sliders = new Slider[2];
     SkinnedMeshRenderer face;
     GameStates currentState = GameStates.NO_FACES_COMPLETE;
     bool inTrigger;
@@ -29,6 +29,14 @@ public class P_FaceManipulation : MonoBehaviour
             inTrigger = true;
             face = other.GetComponent<SkinnedMeshRenderer>();
             //StartCoroutine(FadeText(face.GetComponentInChildren<TextMesh>(), true));
+
+            if (other.GetComponentInChildren<Slider>() != null)
+            {
+                Slider[] childSliders = other.GetComponentsInChildren<Slider>();
+
+                sliders[0] = childSliders[0];
+                sliders[1] = childSliders[1];
+            }
             
             if (!inTheater)
             {
@@ -50,31 +58,14 @@ public class P_FaceManipulation : MonoBehaviour
 
     void UpdateInput()
     {
-        if (inTrigger)
+        if (inTrigger && (face == target1 || face == target2))
         {
-            if (Input.GetKey(smileKey))
-            {
-                face.SetBlendShapeWeight(4, face.GetBlendShapeWeight(4) + 5);
-            }
-            else if (Input.GetKey(frownKey))
-            {
-                face.SetBlendShapeWeight(3, face.GetBlendShapeWeight(3) + 5);
-            }
-            else if (Input.GetKey(eyesClosedKey))
-            {
-                face.SetBlendShapeWeight(2, face.GetBlendShapeWeight(2) + 5);
-            }
-            else if (Input.GetKey(shrinkEarsKey))
-            {
-                face.SetBlendShapeWeight(1, face.GetBlendShapeWeight(1) + 5);
-            }
-            else if (Input.GetKey(warpKey))
-            {
-                face.SetBlendShapeWeight(0, face.GetBlendShapeWeight(0) + 5);
-            }
+            face.SetBlendShapeWeight(4, sliders[0].value * 100);
+            face.SetBlendShapeWeight(3, sliders[1].value * 100);
         }
     }
 
+    // TODO refactor - this whole machine is VERY LAZY CODE, needs complete rewrite
     void UpdateGameStates()
     {
         switch (currentState)
@@ -84,34 +75,44 @@ public class P_FaceManipulation : MonoBehaviour
                 {
                     if (face == target1)
                     {
-                        // if sad/scared
-                        if (face.GetBlendShapeWeight(3) > 100)
+                        // if scared
+                        if (face.GetBlendShapeWeight(3) > 90)
                         {
                             FixFace(npc1Doppelganger, npc1, scared, happy);
                             currentState = GameStates.NPC1_COMPLETE;
                         }
 
-                        // if happy/angry
-                        else if (face.GetBlendShapeWeight(4) > 100)
+                        // if happy
+                        else if (face.GetBlendShapeWeight(4) > 90)
                         {
                             FixFace(npc1Doppelganger, npc1, happy, scared);
                             currentState = GameStates.NPC1_COMPLETE;
                         }
+                        else
+                        {
+                            happy.SetActive(false);
+                            scared.SetActive(false);
+                        }
                     }
                     else if (face == target2)
                     {
-                        // if sad/scared
-                        if (face.GetBlendShapeWeight(3) > 100)
+                        // if sad
+                        if (face.GetBlendShapeWeight(3) > 90)
                         {
                             FixFace(npc2Doppelganger, npc2, sad, angry);
                             currentState = GameStates.NPC2_COMPLETE;
                         }
 
-                        // if happy/angry
-                        else if (face.GetBlendShapeWeight(4) > 100)
+                        // if angry
+                        else if (face.GetBlendShapeWeight(4) > 90)
                         {
                             FixFace(npc2Doppelganger, npc2, angry, sad);
                             currentState = GameStates.NPC2_COMPLETE;
+                        }
+                        else
+                        {
+                            angry.SetActive(false);
+                            sad.SetActive(false);
                         }
                     }
                 }
@@ -121,18 +122,23 @@ public class P_FaceManipulation : MonoBehaviour
                 {
                     if (face == target2)
                     {
-                        // if sad/scared
-                        if (face.GetBlendShapeWeight(3) > 100)
+                        // if sad
+                        if (face.GetBlendShapeWeight(3) > 90)
                         {
                             FixFace(npc2Doppelganger, npc2, sad, angry);
                             currentState = GameStates.BOTH_FACES_COMPLETE;
                         }
 
-                        // if happy/angry
-                        else if (face.GetBlendShapeWeight(4) > 100)
+                        // if angry
+                        else if (face.GetBlendShapeWeight(4) > 90)
                         {
                             FixFace(npc2Doppelganger, npc2, angry, sad);
                             currentState = GameStates.BOTH_FACES_COMPLETE;
+                        }
+                        else
+                        {
+                            angry.SetActive(false);
+                            sad.SetActive(false);
                         }
                     }
                 }
@@ -142,18 +148,23 @@ public class P_FaceManipulation : MonoBehaviour
                 {
                     if (face == target1)
                     {
-                        // if sad/scared
-                        if (face.GetBlendShapeWeight(3) > 100)
+                        // if scared
+                        if (face.GetBlendShapeWeight(3) > 90)
                         {
                             FixFace(npc1Doppelganger, npc1, scared, happy);
                             currentState = GameStates.BOTH_FACES_COMPLETE;
                         }
 
-                        // if happy/angry
-                        else if (face.GetBlendShapeWeight(4) > 100)
+                        // if happy
+                        else if (face.GetBlendShapeWeight(4) > 90)
                         {
                             FixFace(npc1Doppelganger, npc1, happy, scared);
                             currentState = GameStates.BOTH_FACES_COMPLETE;
+                        }
+                        else
+                        {
+                            happy.SetActive(false);
+                            scared.SetActive(false);
                         }
                     }
                 }
@@ -218,6 +229,9 @@ public class P_FaceManipulation : MonoBehaviour
         scared.SetActive(false);
         angry.SetActive(false);
         sad.SetActive(false);
+
+        sliders[0].value = 0;
+        sliders[1].value = 0;
 
         npc1Doppelganger.GetComponent<SphereCollider>().enabled = false;
         npc2Doppelganger.GetComponent<SphereCollider>().enabled = false;

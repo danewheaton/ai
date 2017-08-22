@@ -3,6 +3,9 @@
 // intended to be used for prototyping/grayboxing purposes or as a placeholder
 
 using UnityEngine;
+using UnityEngine.UI;
+
+public enum MouseStates { CAMERA, SLIDERS }
 
 [RequireComponent(typeof(Rigidbody))]
 
@@ -11,6 +14,7 @@ public class P_Controller : MonoBehaviour
     [SerializeField]
     float cameraSensitivityX = 5, cameraSensitivityY = 3, movementSpeed = 5, jumpForce = 300;
 
+    MouseStates currentMouseState = MouseStates.CAMERA;
     Rigidbody myRigidbody;
 
     const float minimumLookAngle = -45, maximumLookAngle = 45;
@@ -37,13 +41,20 @@ public class P_Controller : MonoBehaviour
 
     void Update()
     {
-        // looking left and right turns the whole player, not the camera
-        LookHorizontal();
+        if (currentMouseState == MouseStates.CAMERA)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
 
-        // looking up and down turns the camera, not the player
-        LookVertical();
+            LookHorizontal();
+            LookVertical();
+        }
+        else
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
 
-        // if you press the jump button and you're not already jumping, jump
         //if (Input.GetButtonDown("Jump") && !jumping) Jump();
 
         // reveal cursor if in editor, quit if in build
@@ -57,6 +68,19 @@ public class P_Controller : MonoBehaviour
     void FixedUpdate()
     {
         Move();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Face" && other.GetComponentInChildren<Slider>() != false)
+        {
+            currentMouseState = MouseStates.SLIDERS;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        currentMouseState = MouseStates.CAMERA;
     }
 
     void OnCollisionEnter(Collision other)
