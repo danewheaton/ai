@@ -18,7 +18,7 @@ public class P_FaceManipulation : MonoBehaviour
 
     private void Update()
     {
-        UpdateInput();
+        UpdateSliderInput();
         UpdateGameStates();
     }
 
@@ -56,12 +56,12 @@ public class P_FaceManipulation : MonoBehaviour
         }
     }
 
-    void UpdateInput()
+    void UpdateSliderInput()
     {
         if (inTrigger && (face == target1 || face == target2))
         {
-            face.SetBlendShapeWeight(4, sliders[0].value * 100);
-            face.SetBlendShapeWeight(3, sliders[1].value * 100);
+            face.SetBlendShapeWeight(2, sliders[0].value * 100);
+            face.SetBlendShapeWeight(0, sliders[1].value * 100);
         }
     }
 
@@ -76,14 +76,14 @@ public class P_FaceManipulation : MonoBehaviour
                     if (face == target1)
                     {
                         // if scared
-                        if (face.GetBlendShapeWeight(3) > 90)
+                        if (face.GetBlendShapeWeight(0) > 90)
                         {
                             FixFace(npc1Doppelganger, npc1, scared, happy);
                             currentState = GameStates.NPC1_COMPLETE;
                         }
 
                         // if happy
-                        else if (face.GetBlendShapeWeight(4) > 90)
+                        else if (face.GetBlendShapeWeight(2) > 90)
                         {
                             FixFace(npc1Doppelganger, npc1, happy, scared);
                             currentState = GameStates.NPC1_COMPLETE;
@@ -97,14 +97,14 @@ public class P_FaceManipulation : MonoBehaviour
                     else if (face == target2)
                     {
                         // if sad
-                        if (face.GetBlendShapeWeight(3) > 90)
+                        if (face.GetBlendShapeWeight(0) > 90)
                         {
                             FixFace(npc2Doppelganger, npc2, sad, angry);
                             currentState = GameStates.NPC2_COMPLETE;
                         }
 
                         // if angry
-                        else if (face.GetBlendShapeWeight(4) > 90)
+                        else if (face.GetBlendShapeWeight(2) > 90)
                         {
                             FixFace(npc2Doppelganger, npc2, angry, sad);
                             currentState = GameStates.NPC2_COMPLETE;
@@ -123,14 +123,14 @@ public class P_FaceManipulation : MonoBehaviour
                     if (face == target2)
                     {
                         // if sad
-                        if (face.GetBlendShapeWeight(3) > 90)
+                        if (face.GetBlendShapeWeight(0) > 90)
                         {
                             FixFace(npc2Doppelganger, npc2, sad, angry);
                             currentState = GameStates.BOTH_FACES_COMPLETE;
                         }
 
                         // if angry
-                        else if (face.GetBlendShapeWeight(4) > 90)
+                        else if (face.GetBlendShapeWeight(2) > 90)
                         {
                             FixFace(npc2Doppelganger, npc2, angry, sad);
                             currentState = GameStates.BOTH_FACES_COMPLETE;
@@ -149,14 +149,14 @@ public class P_FaceManipulation : MonoBehaviour
                     if (face == target1)
                     {
                         // if scared
-                        if (face.GetBlendShapeWeight(3) > 90)
+                        if (face.GetBlendShapeWeight(0) > 90)
                         {
                             FixFace(npc1Doppelganger, npc1, scared, happy);
                             currentState = GameStates.BOTH_FACES_COMPLETE;
                         }
 
                         // if happy
-                        else if (face.GetBlendShapeWeight(4) > 90)
+                        else if (face.GetBlendShapeWeight(2) > 90)
                         {
                             FixFace(npc1Doppelganger, npc1, happy, scared);
                             currentState = GameStates.BOTH_FACES_COMPLETE;
@@ -216,8 +216,8 @@ public class P_FaceManipulation : MonoBehaviour
         doppelgangerFace.GetComponent<SphereCollider>().enabled = true;
         npcFace.GetComponent<SphereCollider>().enabled = false;
 
-        doppelgangerFace.SetBlendShapeWeight(3, 100);
-        npcFace.SetBlendShapeWeight(3, 100);
+        doppelgangerFace.SetBlendShapeWeight(0, 100);
+        npcFace.SetBlendShapeWeight(0, 100);
 
         correctExpression.SetActive(true);
         incorrectExpression.SetActive(false);
@@ -236,35 +236,17 @@ public class P_FaceManipulation : MonoBehaviour
         npc1Doppelganger.GetComponent<SphereCollider>().enabled = false;
         npc2Doppelganger.GetComponent<SphereCollider>().enabled = false;
 
-        npc1.SetBlendShapeWeight(4, 0);
-        npc1.SetBlendShapeWeight(3, 0);
         npc1.SetBlendShapeWeight(2, 0);
-        npc1.SetBlendShapeWeight(1, 0);
         npc1.SetBlendShapeWeight(0, 0);
-        npc2.SetBlendShapeWeight(4, 0);
-        npc2.SetBlendShapeWeight(3, 0);
         npc2.SetBlendShapeWeight(2, 0);
-        npc2.SetBlendShapeWeight(1, 0);
         npc2.SetBlendShapeWeight(0, 0);
-        npc1Doppelganger.SetBlendShapeWeight(4, 0);
-        npc1Doppelganger.SetBlendShapeWeight(3, 0);
         npc1Doppelganger.SetBlendShapeWeight(2, 0);
-        npc1Doppelganger.SetBlendShapeWeight(1, 0);
         npc1Doppelganger.SetBlendShapeWeight(0, 0);
-        npc2Doppelganger.SetBlendShapeWeight(4, 0);
-        npc2Doppelganger.SetBlendShapeWeight(3, 0);
         npc2Doppelganger.SetBlendShapeWeight(2, 0);
-        npc2Doppelganger.SetBlendShapeWeight(1, 0);
         npc2Doppelganger.SetBlendShapeWeight(0, 0);
-        target1.SetBlendShapeWeight(4, 0);
-        target1.SetBlendShapeWeight(3, 0);
         target1.SetBlendShapeWeight(2, 0);
-        target1.SetBlendShapeWeight(1, 0);
         target1.SetBlendShapeWeight(0, 0);
-        target2.SetBlendShapeWeight(4, 0);
-        target2.SetBlendShapeWeight(3, 0);
         target2.SetBlendShapeWeight(2, 0);
-        target2.SetBlendShapeWeight(1, 0);
         target2.SetBlendShapeWeight(0, 0);
 
         currentState = GameStates.NO_FACES_COMPLETE;
