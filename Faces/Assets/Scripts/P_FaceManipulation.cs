@@ -11,6 +11,7 @@ public enum GameStates { NO_FACES_COMPLETE, NPC1_COMPLETE, NPC2_COMPLETE, BOTH_F
  * - completely rewrite state machine (UpdateGameStates function)
  * - instead of UpdateSliderInput function, make an IBlendable interface that is applied to objects rather than
  * the player
+ * - put a vector3.angle conditional on the cursor state change, to make sure the player is looking at a face
  * - make it generally more portable/adaptable
  * 
  */
