@@ -276,7 +276,7 @@ public class P_FaceManipulation : MonoBehaviour
         Color originalColor = fadeIn ? new Color(1, 1, 1, 0) : Color.white,
             newColor = fadeIn ? Color.white : new Color(1, 1, 1, 0);
 
-        float elapsedTime = 0, fadeTimer = 1;
+        float elapsedTime = 0, fadeTimer = .5f;
         while (elapsedTime < fadeTimer)
         {
             foreach (Slider s in sliders)
