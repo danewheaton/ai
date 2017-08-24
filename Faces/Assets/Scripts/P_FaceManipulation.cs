@@ -30,6 +30,8 @@ public class P_FaceManipulation : MonoBehaviour
 
     private void Update()
     {
+        print(currentState);
+
         UpdateSliderInput();
         UpdateGameStates();
     }
@@ -51,12 +53,6 @@ public class P_FaceManipulation : MonoBehaviour
                 foreach (Slider s in sliders) if (!oldSliders.Contains(s)) oldSliders.Add(s);
 
                 StartCoroutine(FadeSliders(true));
-            }
-            
-            if (!inTheater)
-            {
-                npc1.GetComponent<SphereCollider>().enabled = true;
-                npc2.GetComponent<SphereCollider>().enabled = true;
             }
         }
     }
@@ -180,35 +176,23 @@ public class P_FaceManipulation : MonoBehaviour
                 }
                 break;
             case GameStates.BOTH_FACES_COMPLETE:
+                // win
                 if (happy.activeInHierarchy && sad.activeInHierarchy && inTheater) Win(true);
-                else if (happy.activeInHierarchy && angry.activeInHierarchy)
+                else if (scared.activeInHierarchy && angry.activeInHierarchy && inTheater) Win(false);
+
+                // reset
+                else if ((happy.activeInHierarchy && angry.activeInHierarchy) ||
+                    (scared.activeInHierarchy && sad.activeInHierarchy))
                 {
                     if (face == npc1Doppelganger)
                     {
                         npc2.GetComponent<SphereCollider>().enabled = true;
-                        Restart();
+                        Reset();
                     }
                     else if (face == npc2Doppelganger)
                     {
                         npc1.GetComponent<SphereCollider>().enabled = true;
-                        Restart();
-                    }
-                }
-                else if (scared.activeInHierarchy && angry.activeInHierarchy && inTheater)
-                {
-                    Win(false);
-                }
-                else if (scared.activeInHierarchy && sad.activeInHierarchy)
-                {
-                    if (face == npc1Doppelganger)
-                    {
-                        npc2.GetComponent<SphereCollider>().enabled = true;
-                        Restart();
-                    }
-                    else if (face == npc2Doppelganger)
-                    {
-                        npc1.GetComponent<SphereCollider>().enabled = true;
-                        Restart();
+                        Reset();
                     }
                 }
                 break;
@@ -224,9 +208,15 @@ public class P_FaceManipulation : MonoBehaviour
 
         doppelgangerFace.SetBlendShapeWeight(0, 100);
         npcFace.SetBlendShapeWeight(0, 100);
+
+        if (!inTheater)
+        {
+            npc1.GetComponent<SphereCollider>().enabled = true;
+            npc2.GetComponent<SphereCollider>().enabled = true; // fuck this stupid state machine shit, it's terrible
+        }
     }
 
-    void Restart()
+    void Reset()
     {
         happy.SetActive(false);
         scared.SetActive(false);
