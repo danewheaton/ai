@@ -5,6 +5,16 @@ using UnityEngine.UI;
 
 public enum GameStates { NO_FACES_COMPLETE, NPC1_COMPLETE, NPC2_COMPLETE, BOTH_FACES_COMPLETE, WON }
 
+/*
+ * TODO
+ * 
+ * - completely rewrite state machine (UpdateGameStates function)
+ * - instead of UpdateSliderInput function, make an IBlendable interface that is applied to objects rather than
+ * the player
+ * - make it generally more portable/adaptable
+ * 
+ */
+
 public class P_FaceManipulation : MonoBehaviour
 {
     public static bool inTheater = true;
