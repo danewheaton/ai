@@ -432,6 +432,24 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ad46c7bbc5d0bf043a2f08ab0e623d55, type: 3}
   m_IsPrefabParent: 0
+--- !u!1 &55015651 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100000, guid: 6db631bfa198ab74eb6b12393b88d13c, type: 3}
+  m_PrefabInternal: {fileID: 582081271}
+--- !u!64 &55015654
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 55015651}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 0
+  m_InflateMesh: 0
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300000, guid: 6db631bfa198ab74eb6b12393b88d13c, type: 3}
 --- !u!1001 &126398563
 Prefab:
   m_ObjectHideFlags: 0
@@ -2620,6 +2638,10 @@ Prefab:
       propertyPath: m_Name
       value: Theater Building (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 6db631bfa198ab74eb6b12393b88d13c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6db631bfa198ab74eb6b12393b88d13c, type: 3}
   m_IsPrefabParent: 0
@@ -2983,6 +3005,10 @@ Prefab:
     - target: {fileID: 100000, guid: 6db631bfa198ab74eb6b12393b88d13c, type: 3}
       propertyPath: m_Name
       value: Theater Building (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 6db631bfa198ab74eb6b12393b88d13c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6db631bfa198ab74eb6b12393b88d13c, type: 3}
@@ -12361,6 +12387,24 @@ Mesh:
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
   m_MeshOptimized: 0
+--- !u!1 &1541442919 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100000, guid: 6db631bfa198ab74eb6b12393b88d13c, type: 3}
+  m_PrefabInternal: {fileID: 638948347}
+--- !u!64 &1541442922
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1541442919}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 0
+  m_InflateMesh: 0
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300000, guid: 6db631bfa198ab74eb6b12393b88d13c, type: 3}
 --- !u!4 &1573892837 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4291742552211986, guid: 9339c54ad113c0f40b882431901556b3,

@@ -30,8 +30,6 @@ public class P_FaceManipulation : MonoBehaviour
 
     private void Update()
     {
-        print(currentState);
-
         UpdateSliderInput();
         UpdateGameStates();
     }
