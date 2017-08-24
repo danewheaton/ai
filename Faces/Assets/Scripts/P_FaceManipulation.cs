@@ -36,6 +36,8 @@ public class P_FaceManipulation : MonoBehaviour
 
                 sliders[0] = childSliders[0];
                 sliders[1] = childSliders[1];
+
+                StartCoroutine(FadeSliders(true));
             }
             
             if (!inTheater)
@@ -50,15 +52,15 @@ public class P_FaceManipulation : MonoBehaviour
     {
         inTrigger = false;
 
-        if (other.tag == "Face")
+        if (other.tag == "Face" && other.GetComponentInChildren<Slider>() != null)
         {
-            //StartCoroutine(FadeText(face.GetComponentInChildren<TextMesh>(), false));
+            StartCoroutine(FadeSliders(false));
         }
     }
 
     void UpdateSliderInput()
     {
-        if (inTrigger && (face == target1 || face == target2))
+        if (inTrigger && face != npc1 && face != npc2)
         {
             face.SetBlendShapeWeight(2, sliders[0].value * 100);
             face.SetBlendShapeWeight(0, sliders[1].value * 100);
@@ -267,19 +269,28 @@ public class P_FaceManipulation : MonoBehaviour
         currentState = GameStates.WON;
     }
 
-    IEnumerator FadeText(TextMesh textToFade, bool fadeIn)
+    IEnumerator FadeSliders(bool fadeIn)
     {
-        Color originalColor = fadeIn ? Color.clear : Color.white, newColor = fadeIn ? Color.white : Color.clear;
+        Color originalColor = fadeIn ? new Color(1, 1, 1, 0) : Color.white,
+            newColor = fadeIn ? Color.white : new Color(1, 1, 1, 0);
 
         float elapsedTime = 0, fadeTimer = 1;
         while (elapsedTime < fadeTimer)
         {
-            textToFade.color = Color.Lerp(originalColor, newColor, elapsedTime / fadeTimer);
+            foreach (Slider s in sliders)
+            {
+                foreach (Image i in s.GetComponentsInChildren<Image>())
+                    i.color = Color.Lerp(originalColor, newColor, elapsedTime / fadeTimer);
+            }
 
             elapsedTime += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
 
-        textToFade.color = newColor;
+        foreach (Slider s in sliders)
+        {
+            foreach (Image i in s.GetComponentsInChildren<Image>())
+                i.color = newColor;
+        }
     }
 }
