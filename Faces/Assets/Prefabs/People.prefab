@@ -3898,7 +3898,7 @@ GameObject:
   - component: {fileID: 135579043361724808}
   - component: {fileID: 114575133893991600}
   m_Layer: 0
-  m_Name: Base1
+  m_Name: Doppelganger2 Collider
   m_TagString: Face
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5266,7 +5266,7 @@ GameObject:
   - component: {fileID: 135330073744425994}
   - component: {fileID: 114461671031807178}
   m_Layer: 0
-  m_Name: Base1
+  m_Name: NPC2 Collider
   m_TagString: Face
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5769,7 +5769,7 @@ GameObject:
   - component: {fileID: 137163830914839556}
   - component: {fileID: 135452233823201982}
   m_Layer: 0
-  m_Name: Base1
+  m_Name: Target2 Collider
   m_TagString: Face
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6075,7 +6075,7 @@ GameObject:
   - component: {fileID: 135603834138545022}
   - component: {fileID: 114258524688673842}
   m_Layer: 0
-  m_Name: Base1
+  m_Name: NPC1 Collider
   m_TagString: Face
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8862,7 +8862,7 @@ GameObject:
   - component: {fileID: 137221167917307184}
   - component: {fileID: 135065282814973788}
   m_Layer: 0
-  m_Name: Base1
+  m_Name: Target1 Collider
   m_TagString: Face
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13919,7 +13919,7 @@ GameObject:
   - component: {fileID: 135523308133320052}
   - component: {fileID: 114571951006985838}
   m_Layer: 0
-  m_Name: Base1
+  m_Name: Doppelganger1 Collider
   m_TagString: Face
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

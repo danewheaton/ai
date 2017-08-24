@@ -11,7 +11,6 @@ public enum GameStates { NO_FACES_COMPLETE, NPC1_COMPLETE, NPC2_COMPLETE, BOTH_F
  * - completely rewrite state machine (UpdateGameStates function)
  * - instead of UpdateSliderInput function, make an IBlendable interface that is applied to objects rather than
  * the player
- * - put a vector3.angle conditional on the cursor state change, to make sure the player is looking at a face
  * - make it generally more portable/adaptable
  * 
  */
@@ -21,6 +20,8 @@ public class P_FaceManipulation : MonoBehaviour
     public static bool inTheater = true;
     [SerializeField] SkinnedMeshRenderer target1, target2, npc1, npc2, npc1Doppelganger, npc2Doppelganger;
     [SerializeField] GameObject screen, stairs, happy, scared, angry, sad, wall;
+
+    List<Slider> oldSliders = new List<Slider>();
 
     Slider[] sliders = new Slider[2];
     SkinnedMeshRenderer face;
@@ -39,7 +40,6 @@ public class P_FaceManipulation : MonoBehaviour
         {
             inTrigger = true;
             face = other.GetComponent<SkinnedMeshRenderer>();
-            //StartCoroutine(FadeText(face.GetComponentInChildren<TextMesh>(), true));
 
             if (other.GetComponentInChildren<Slider>() != null)
             {
@@ -47,6 +47,8 @@ public class P_FaceManipulation : MonoBehaviour
 
                 sliders[0] = childSliders[0];
                 sliders[1] = childSliders[1];
+
+                foreach (Slider s in sliders) if (!oldSliders.Contains(s)) oldSliders.Add(s);
 
                 StartCoroutine(FadeSliders(true));
             }
@@ -111,7 +113,7 @@ public class P_FaceManipulation : MonoBehaviour
                         }
 
                         // if happy
-                        if (face.GetBlendShapeWeight(2) > 90)
+                        else if (face.GetBlendShapeWeight(2) > 90)
                         {
                             FixFace(npc1Doppelganger, npc1);
                             currentState = GameStates.NPC1_COMPLETE;
@@ -127,7 +129,7 @@ public class P_FaceManipulation : MonoBehaviour
                         }
 
                         // if angry
-                        if (face.GetBlendShapeWeight(2) > 90)
+                        else if (face.GetBlendShapeWeight(2) > 90)
                         {
                             FixFace(npc2Doppelganger, npc2);
                             currentState = GameStates.NPC2_COMPLETE;
@@ -148,7 +150,7 @@ public class P_FaceManipulation : MonoBehaviour
                         }
 
                         // if angry
-                        if (face.GetBlendShapeWeight(2) > 90)
+                        else if (face.GetBlendShapeWeight(2) > 90)
                         {
                             FixFace(npc2Doppelganger, npc2);
                             currentState = GameStates.BOTH_FACES_COMPLETE;
@@ -169,7 +171,7 @@ public class P_FaceManipulation : MonoBehaviour
                         }
 
                         // if happy
-                        if (face.GetBlendShapeWeight(2) > 90)
+                        else if (face.GetBlendShapeWeight(2) > 90)
                         {
                             FixFace(npc1Doppelganger, npc1);
                             currentState = GameStates.BOTH_FACES_COMPLETE;
@@ -231,8 +233,7 @@ public class P_FaceManipulation : MonoBehaviour
         angry.SetActive(false);
         sad.SetActive(false);
 
-        sliders[0].value = 0;
-        sliders[1].value = 0;
+        foreach (Slider s in oldSliders) s.value = 0;
 
         npc1Doppelganger.GetComponent<SphereCollider>().enabled = false;
         npc2Doppelganger.GetComponent<SphereCollider>().enabled = false;

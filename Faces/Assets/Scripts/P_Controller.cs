@@ -12,14 +12,15 @@ public enum MouseStates { CAMERA, SLIDERS }
 public class P_Controller : MonoBehaviour
 {
     [SerializeField]
-    float cameraSensitivityX = 5, cameraSensitivityY = 3, movementSpeed = 5, jumpForce = 300;
+    float cameraSensitivityX = 5, cameraSensitivityY = 3, movementSpeed = 5, jumpForce = 300, visionCone = 60;
 
     MouseStates currentMouseState = MouseStates.CAMERA;
     Rigidbody myRigidbody;
+    Transform face;
 
     const float minimumLookAngle = -45, maximumLookAngle = 45;
     float rotationX, rotationY;
-    bool jumping;
+    bool jumping, inSliderTrigger;
 
     void Start()
     {
@@ -41,6 +42,10 @@ public class P_Controller : MonoBehaviour
 
     void Update()
     {
+        if (inSliderTrigger && Vector3.Angle(face.parent.position - transform.position, transform.forward) < visionCone)
+            currentMouseState = MouseStates.SLIDERS;
+        else currentMouseState = MouseStates.CAMERA;
+
         if (currentMouseState == MouseStates.CAMERA)
         {
             Cursor.visible = false;
@@ -74,13 +79,14 @@ public class P_Controller : MonoBehaviour
     {
         if (other.tag == "Face" && other.GetComponentInChildren<Slider>() != false)
         {
-            currentMouseState = MouseStates.SLIDERS;
+            face = other.transform;
+            inSliderTrigger = true;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        currentMouseState = MouseStates.CAMERA;
+        inSliderTrigger = false;
     }
 
     void OnCollisionEnter(Collision other)
