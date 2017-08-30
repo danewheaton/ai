@@ -55,6 +55,8 @@ public class P_PickUpObject : MonoBehaviour
     {
         objectInTrigger.position = hand.position;
         objectInTrigger.SetParent(transform);
+        objectInTrigger.GetComponent<Collider>().enabled = false;
+        objectInTrigger.GetComponent<Rigidbody>().isKinematic = true;
         handRenderer.enabled = false;
 
         currentState = HoldStates.HOLDING_OBJECT;
@@ -63,7 +65,7 @@ public class P_PickUpObject : MonoBehaviour
     void DropObject()
     {
         objectInTrigger.SetParent(null);
-        objectInTrigger.GetComponent<Collider>().enabled = false;
+        objectInTrigger.GetComponent<Rigidbody>().isKinematic = false;
 
         currentState = HoldStates.DEFAULT;
     }
