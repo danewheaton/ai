@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Face
+  - SadPickup
+  - SadDropZone
   layers:
   - Default
   - TransparentFX

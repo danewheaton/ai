@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum GameStates { NO_FACES_COMPLETE, NPC1_COMPLETE, NPC2_COMPLETE, BOTH_FACES_COMPLETE, WON }
+public enum OldGameStates { NO_FACES_COMPLETE, NPC1_COMPLETE, NPC2_COMPLETE, BOTH_FACES_COMPLETE, WON }
 
 /*
  * TODO
@@ -25,7 +25,7 @@ public class P_FaceManipulation : MonoBehaviour
 
     Slider[] sliders = new Slider[2];
     SkinnedMeshRenderer face;
-    GameStates currentState = GameStates.NO_FACES_COMPLETE;
+    OldGameStates currentState = OldGameStates.NO_FACES_COMPLETE;
     bool inTrigger;
 
     private void Update()
@@ -94,7 +94,7 @@ public class P_FaceManipulation : MonoBehaviour
     {
         switch (currentState)
         {
-            case GameStates.NO_FACES_COMPLETE:
+            case OldGameStates.NO_FACES_COMPLETE:
                 if (inTrigger)
                 {
                     if (face == target1)
@@ -103,14 +103,14 @@ public class P_FaceManipulation : MonoBehaviour
                         if (face.GetBlendShapeWeight(0) > 90)
                         {
                             FixFace(npc1Doppelganger, npc1);
-                            currentState = GameStates.NPC1_COMPLETE;
+                            currentState = OldGameStates.NPC1_COMPLETE;
                         }
 
                         // if happy
                         else if (face.GetBlendShapeWeight(2) > 90)
                         {
                             FixFace(npc1Doppelganger, npc1);
-                            currentState = GameStates.NPC1_COMPLETE;
+                            currentState = OldGameStates.NPC1_COMPLETE;
                         }
                     }
                     else if (face == target2)
@@ -119,19 +119,19 @@ public class P_FaceManipulation : MonoBehaviour
                         if (face.GetBlendShapeWeight(0) > 90)
                         {
                             FixFace(npc2Doppelganger, npc2);
-                            currentState = GameStates.NPC2_COMPLETE;
+                            currentState = OldGameStates.NPC2_COMPLETE;
                         }
 
                         // if angry
                         else if (face.GetBlendShapeWeight(2) > 90)
                         {
                             FixFace(npc2Doppelganger, npc2);
-                            currentState = GameStates.NPC2_COMPLETE;
+                            currentState = OldGameStates.NPC2_COMPLETE;
                         }
                     }
                 }
                 break;
-            case GameStates.NPC1_COMPLETE:
+            case OldGameStates.NPC1_COMPLETE:
                 if (inTrigger)
                 {
                     if (face == target2)
@@ -140,19 +140,19 @@ public class P_FaceManipulation : MonoBehaviour
                         if (face.GetBlendShapeWeight(0) > 90)
                         {
                             FixFace(npc2Doppelganger, npc2);
-                            currentState = GameStates.BOTH_FACES_COMPLETE;
+                            currentState = OldGameStates.BOTH_FACES_COMPLETE;
                         }
 
                         // if angry
                         else if (face.GetBlendShapeWeight(2) > 90)
                         {
                             FixFace(npc2Doppelganger, npc2);
-                            currentState = GameStates.BOTH_FACES_COMPLETE;
+                            currentState = OldGameStates.BOTH_FACES_COMPLETE;
                         }
                     }
                 }
                 break;
-            case GameStates.NPC2_COMPLETE:
+            case OldGameStates.NPC2_COMPLETE:
                 if (inTrigger)
                 {
                     if (face == target1)
@@ -161,19 +161,19 @@ public class P_FaceManipulation : MonoBehaviour
                         if (face.GetBlendShapeWeight(0) > 90)
                         {
                             FixFace(npc1Doppelganger, npc1);
-                            currentState = GameStates.BOTH_FACES_COMPLETE;
+                            currentState = OldGameStates.BOTH_FACES_COMPLETE;
                         }
 
                         // if happy
                         else if (face.GetBlendShapeWeight(2) > 90)
                         {
                             FixFace(npc1Doppelganger, npc1);
-                            currentState = GameStates.BOTH_FACES_COMPLETE;
+                            currentState = OldGameStates.BOTH_FACES_COMPLETE;
                         }
                     }
                 }
                 break;
-            case GameStates.BOTH_FACES_COMPLETE:
+            case OldGameStates.BOTH_FACES_COMPLETE:
                 // win
                 if (happy.activeInHierarchy && sad.activeInHierarchy && inTheater) Win(true);
                 else if (scared.activeInHierarchy && angry.activeInHierarchy && inTheater) Win(false);
@@ -239,7 +239,7 @@ public class P_FaceManipulation : MonoBehaviour
         target2.SetBlendShapeWeight(2, 0);
         target2.SetBlendShapeWeight(0, 0);
 
-        currentState = GameStates.NO_FACES_COMPLETE;
+        currentState = OldGameStates.NO_FACES_COMPLETE;
     }
 
     void Win(bool npc1WasTheKiller)
@@ -266,7 +266,7 @@ public class P_FaceManipulation : MonoBehaviour
         target1.GetComponent<SphereCollider>().enabled = false;
         target2.GetComponent<SphereCollider>().enabled = false;
 
-        currentState = GameStates.WON;
+        currentState = OldGameStates.WON;
     }
 
     IEnumerator FadeSliders(bool fadeIn)
